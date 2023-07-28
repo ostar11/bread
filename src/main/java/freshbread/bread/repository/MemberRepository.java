@@ -21,11 +21,10 @@ public class MemberRepository {
     }
 
     // 이름 전화번호 -> 아이디
-    public List<Member> findByNamePhoneNumber(String name, String phoneNumber) {
+    public List<Member> findByName(String name) {
         return em.createQuery(
-                        "select m from Member m where m.name = :name and m.phoneNumber = :phoneNumber", Member.class)
+                        "select m from Member m where m.name = :name", Member.class)
                 .setParameter("name", name)
-                .setParameter("phoneNumber", phoneNumber)
                 .getResultList();
     }
 }
