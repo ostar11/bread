@@ -9,24 +9,37 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Item {
 
     @Id @GeneratedValue
     @Column(name = "item_id")
     private Long id;
 
+    @Column(unique = true)
     private String name;
     private int price;
     private int stockQuantity;
     private String details;
-    private LocalDateTime created_date;
+    private LocalDateTime createdDate;
 
     @Enumerated(EnumType.STRING)
     private ItemStatus status;
+
+    public Item(String name, int price, int stockQuantity, String details) {
+        this.name = name;
+        this.price = price;
+        this.stockQuantity = stockQuantity;
+        this.details = details;
+        createdDate = LocalDateTime.now();
+        status = ItemStatus.ON_SALE;
+    }
 
     public void addStock(int quantity) {
         this.stockQuantity += quantity;
