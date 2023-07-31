@@ -19,6 +19,16 @@ class ItemTest {
         assertEquals(item.getStockQuantity(), 25);
     }
 
+    @Test
+    void 재고_감소() throws Exception {
+        //given
+        Item item = createItem("식빵", 2000, 10, "우유로 만든 기본식빵");
+        //when
+        item.removeStock(5);
+        //then
+        assertEquals(item.getStockQuantity(), 5);
+    }
+
     private Item createItem(String itemName, int price, int stockQuantity, String itemDetails) {
         return new Item(itemName, price, stockQuantity, itemDetails);
     }
