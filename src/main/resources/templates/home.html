@@ -1,22 +1,22 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: header">
+<!--<head th:replace="fragments/header :: header">-->
     <title>Hello</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
 <div class="container">
-    <div th:replace="fragments/bodyHeader :: bodyHeader" />
+<!--    <div th:replace="fragments/bodyHeader :: bodyHeader" />-->
     <div class="jumbotron">
         <h1>지금 나온 빵</h1>
 
         <p>
-            <a class="btn btn-lg btn-secondary" href="/members/new">회원 가입</a>
-            <a class="btn btn-lg btn-secondary" href="/members/login">로그인</a>
+            <a class="btn btn-lg btn-secondary" href="/member/new">회원 가입</a>
+            <a class="btn btn-lg btn-secondary" href="/member/login">로그인</a>
         </p>
 
     </div>
-    <div th:replace="fragments/footer :: footer" />
+<!--    <div th:replace="fragments/footer :: footer" />-->
 </div> <!-- /container -->
 </body>
 </html>

@@ -2,6 +2,7 @@ package freshbread.bread.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import freshbread.bread.domain.Address;
 import freshbread.bread.domain.Member;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -26,7 +27,7 @@ class MemberServiceTest {
 
     @Test
     void 회원가입() throws Exception {
-        Member member = new Member("member1", "1234", "010-1111", "busan", "12", "13");
+        Member member = new Member("member1", "1234", "010-1111", new Address("busan", "12", "13"));
 
         Long saveId = memberService.join(member);
 
@@ -35,10 +36,10 @@ class MemberServiceTest {
 
     @Test
     void 중복_이름_회원가입() throws Exception {
-        Member member1 = new Member("member1", "1234", "010-1111", "busan", "12", "13");
+        Member member1 = new Member("member1", "1234", "010-1111", new Address("busan", "12", "13"));
         memberService.join(member1);
 
-        Member member2 = new Member("member1", "1234", "010-2222", "busan", "12", "13");
+        Member member2 = new Member("member1", "1234", "010-2222", new Address("busan", "12", "13"));
 
         assertThrows(IllegalStateException.class,
                 () -> memberService.join(member2));

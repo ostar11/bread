@@ -38,11 +38,11 @@ public class Member {
 
     private LocalDateTime createdDate;
 
-    public Member(String name, String password, String phoneNumber, String city, String street, String zipcode) {
+    public Member(String name, String password, String phoneNumber, Address address) {
         this.name = name;
         this.password = password;
         this.phoneNumber = phoneNumber;
-        this.address = new Address(city, street, zipcode);
+        this.address = address;
         this.role = Role.CUSTOMER;
         this.createdDate = LocalDateTime.now();
     }
