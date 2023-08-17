@@ -22,10 +22,13 @@ public class Member {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String name;
+    private String loginId;
 
     @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false, unique = true)
+    private String name;
 
     @Column(nullable = false, unique = true)
     private String phoneNumber;
@@ -38,7 +41,8 @@ public class Member {
 
     private LocalDateTime createdDate;
 
-    public Member(String name, String password, String phoneNumber, Address address) {
+    public Member(String loginId, String password, String name, String phoneNumber, Address address) {
+        this.loginId = loginId;
         this.name = name;
         this.password = password;
         this.phoneNumber = phoneNumber;
