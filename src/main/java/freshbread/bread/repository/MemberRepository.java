@@ -3,7 +3,6 @@ package freshbread.bread.repository;
 import freshbread.bread.domain.Member;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -17,15 +16,32 @@ public class MemberRepository {
         em.persist(member);
     }
 
-    public Member findById(Long memberId) {
+    public Member findByLoginId(Long memberId) {
         return em.find(Member.class, memberId);
     }
 
-    // 이름 전화번호 -> 아이디
+    // 이름 -> 아이디
     public List<Member> findByName(String name) {
         return em.createQuery(
                         "select m from Member m where m.name = :name", Member.class)
                 .setParameter("name", name)
                 .getResultList();
+    }
+
+    public boolean existsByLoginId(String loginId) {
+        List<Member> members = em.createQuery("select m from Member m where m.loginId = :loginId", Member.class)
+                .setParameter("loginId", loginId)
+                .getResultList();
+
+        return !members.isEmpty();
+    }
+
+    public boolean existsByPhoneNumber(String phoneNUmber) {
+        List<Member> members = em.createQuery("select m from Member m where m.phoneNumber = :phoneNumber",
+                        Member.class)
+                .setParameter("phoneNumber", phoneNUmber)
+                .getResultList();
+
+        return !members.isEmpty();
     }
 }

@@ -9,6 +9,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -27,7 +28,7 @@ public class Member {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String name;
 
     @Column(nullable = false, unique = true)
@@ -43,8 +44,8 @@ public class Member {
 
     public Member(String loginId, String password, String name, String phoneNumber, Address address) {
         this.loginId = loginId;
-        this.name = name;
         this.password = password;
+        this.name = name;
         this.phoneNumber = phoneNumber;
         this.address = address;
         this.role = Role.CUSTOMER;

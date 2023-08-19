@@ -8,7 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
@@ -17,6 +19,11 @@ public class MemberController {
 
     private final MemberService memberService;
 
+    @GetMapping("/")
+    public String home(Model model) {
+        return "home";
+    }
+
     @GetMapping("/member/new")
     public String createForm(Model model) {
         model.addAttribute("memberForm", new MemberForm());
@@ -24,16 +31,21 @@ public class MemberController {
     }
 
     @PostMapping("/member/new")
-    public String addMember(@Valid MemberForm form, BindingResult result) {
+    public String addMember(@Valid @ModelAttribute MemberForm form, BindingResult bindingResult) {
 
-        if (result.hasErrors()) {
+        if (memberService.checkLoginIdDuplicate(form.getLoginId())) {
+            bindingResult.addError(new FieldError("memberForm", "loginId", "이미 사용중인 아이디입니다."));
+        }
+
+        if (memberService.checkPhoneNumberDuplicate(form.getPhoneNumber())) {
+            bindingResult.addError(new FieldError("memberForm", "phoneNumber", "이미 사용중인 전화번호 입니다."));
+        }
+
+        if (bindingResult.hasErrors()) {
             return "member/createMemberForm";
         }
 
-        Address address = new Address(form.getCity(), form.getStreet(), form.getZipcode());
-        Member member = new Member(form.getLoginId(), form.getPassword(), form.getPassword(), form.getName(), address);
-
-        memberService.join(member);
+        memberService.join2(form);
 
         return "redirect:/";
     }

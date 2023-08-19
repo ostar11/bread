@@ -1,9 +1,11 @@
 package freshbread.bread.service;
 
+import freshbread.bread.controller.MemberForm;
 import freshbread.bread.domain.Member;
 import freshbread.bread.repository.MemberRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,7 +15,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final BCryptPasswordEncoder encoder;
 
+    /**
+     * 회원가입1 : 비밀번호 암호화 x
+     * 화면에서 MemberForm(loginId, password, name, phoneNumber, city, street, zipcode)을 입력받아 Member로 변환
+     */
     @Transactional
     public Long join(Member member) {
         validateDuplicateMember(member);
@@ -22,7 +29,7 @@ public class MemberService {
     }
 
     public Member findOne(Long memberId) {
-        return memberRepository.findById(memberId);
+        return memberRepository.findByLoginId(memberId);
     }
 
     private void validateDuplicateMember(Member member) {
@@ -32,5 +39,30 @@ public class MemberService {
         }
     }
 
+    /**
+     * 회원가입 2 : 비밀번호 암호화 O
+     * 화면에서 MemberForm(loginId, password, name, phoneNumber, city, street, zipcode)을 입력받아 Member로 변환
+     * 추가적으로 password를 암호화해서 저장한다.
+     * loginId, phoneNumber 중복체크는 에러메시지를 표시해야하므로 Controller에서 진행한다.
+     */
+    @Transactional
+    public Long join2(MemberForm memberForm) {
+        Member member = memberForm.toEntity(encoder.encode(memberForm.getPassword()));
+        memberRepository.save(member);
+        return member.getId();
+    }
 
+    /**
+     * loginId 중복체크
+     */
+    public boolean checkLoginIdDuplicate(String loginId) {
+        return memberRepository.existsByLoginId(loginId);
+    }
+
+    /**
+     * phoneNumber 중복체크
+     */
+    public boolean checkPhoneNumberDuplicate(String phoneNUmber) {
+        return memberRepository.existsByPhoneNumber(phoneNUmber);
+    }
 }
