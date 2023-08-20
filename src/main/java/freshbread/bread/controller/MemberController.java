@@ -49,4 +49,11 @@ public class MemberController {
 
         return "redirect:/";
     }
+
+    @GetMapping("/member/login")
+    public String loginForm(Model model) {
+        model.addAttribute("loginForm", new LoginForm());
+        return "member/loginForm";
+    }
+
 }

@@ -1,4 +1,4 @@
-package freshbread.bread.controller;
+package freshbread.bread.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
