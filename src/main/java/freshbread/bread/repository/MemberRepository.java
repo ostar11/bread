@@ -16,8 +16,14 @@ public class MemberRepository {
         em.persist(member);
     }
 
-    public Member findByLoginId(Long memberId) {
+    public Member findById(Long memberId) {
         return em.find(Member.class, memberId);
+    }
+
+    public Member findByLoginId(String loginId) {
+        return em.createQuery("select m from Member m where m.loginId = :loginId", Member.class)
+                .setParameter("loginId", loginId)
+                .getSingleResult();
     }
 
     // 이름 -> 아이디

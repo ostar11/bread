@@ -29,7 +29,7 @@ public class MemberService {
     }
 
     public Member findOne(Long memberId) {
-        return memberRepository.findByLoginId(memberId);
+        return memberRepository.findById(memberId);
     }
 
     private void validateDuplicateMember(Member member) {
@@ -64,5 +64,17 @@ public class MemberService {
      */
     public boolean checkPhoneNumberDuplicate(String phoneNUmber) {
         return memberRepository.existsByPhoneNumber(phoneNUmber);
+    }
+
+    public Member getLoginUserByLoginId(String loginId) {
+        if (loginId == null) {
+            return null;
+        }
+
+        Member findMember = memberRepository.findByLoginId(loginId);
+        if (findMember == null) {
+            return null;
+        }
+        return findMember;
     }
 }

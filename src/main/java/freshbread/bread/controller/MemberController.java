@@ -5,6 +5,7 @@ import freshbread.bread.domain.Member;
 import freshbread.bread.service.MemberService;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,11 +19,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class MemberController {
 
     private final MemberService memberService;
-
-    @GetMapping("/")
-    public String home(Model model) {
-        return "home";
-    }
 
     @GetMapping("/member/new")
     public String createForm(Model model) {
@@ -54,6 +50,17 @@ public class MemberController {
     public String loginForm(Model model) {
         model.addAttribute("loginForm", new LoginForm());
         return "member/loginForm";
+    }
+
+    @GetMapping({"", "/"})
+    public String home(Model model, Authentication auth) {
+        if(auth != null) {
+            Member member = memberService.getLoginUserByLoginId(auth.getName());
+            if(member != null) {
+                model.addAttribute("loginId", member.getLoginId());
+            }
+        }
+        return "home";
     }
 
 }

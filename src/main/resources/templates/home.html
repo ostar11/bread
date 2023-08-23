@@ -8,10 +8,25 @@
     <div class="jumbotron">
         <h1>지금 나온 빵</h1>
 
-        <p>
-            <a class="btn btn-lg btn-secondary" href="/member/new">회원 가입</a>
-            <a class="btn btn-lg btn-secondary" href="/member/login">로그인</a>
-        </p>
+<!--        <p>-->
+<!--            <a class="btn btn-lg btn-secondary" href="/member/new">회원 가입</a>-->
+<!--            <a class="btn btn-lg btn-secondary" href="/member/login">로그인</a>-->
+<!--        </p>-->
+
+        <div th:if="${loginId == null}">
+            <h3>로그인 되어있지 않습니다.</h3>
+<!--            <button th:onclick="|location.href='@{/member/new}'|">회원 가입</button>-->
+                <button type="button" onclick="location.href='/member/new'">회원가입</button>
+            <br/>
+<!--            <button th:onclick="|location.href='@{/member/login}'|">로그인</button>-->
+            <button type="button" onclick="location.href='/member/login'">로그인</button>
+            <br/>
+        </div>
+
+        <div th:unless="${loginId == null}">
+            <h3>[[${loginId}]]님 환영합니다!</h3>
+
+        </div>
 
     </div>
 </div>
