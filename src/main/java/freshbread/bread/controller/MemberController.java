@@ -13,6 +13,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
@@ -47,7 +48,11 @@ public class MemberController {
     }
 
     @GetMapping("/member/login")
-    public String loginForm(Model model) {
+    public String loginForm(@RequestParam(value = "error", required = false) String error,
+                            @RequestParam(value = "exception", required = false) String exception,
+                            Model model) {
+        model.addAttribute("error", error);
+        model.addAttribute("exception", exception);
         model.addAttribute("loginForm", new LoginForm());
         return "member/loginForm";
     }
