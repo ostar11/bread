@@ -59,13 +59,34 @@ public class MemberController {
 
     @GetMapping({"", "/"})
     public String home(Model model, Authentication auth) {
-        if(auth != null) {
+        if (auth != null) {
             Member member = memberService.getLoginUserByLoginId(auth.getName());
-            if(member != null) {
+            if (member != null) {
                 model.addAttribute("loginId", member.getLoginId());
             }
         }
         return "home";
     }
 
+    @GetMapping("/member")
+    public String memberHome(Model model, Authentication auth) {
+        if (auth != null) {
+            Member member = memberService.getLoginUserByLoginId(auth.getName());
+            if (member != null) {
+                model.addAttribute("loginId", member.getLoginId());
+            }
+        }
+        return "member/memberHome";
+    }
+
+    @GetMapping("/admin")
+    public String adminHome(Model model, Authentication auth) {
+        if (auth != null) {
+            Member member = memberService.getLoginUserByLoginId(auth.getName());
+            if (member != null) {
+                model.addAttribute("loginId", member.getLoginId());
+            }
+        }
+        return "member/adminHome";
+    }
 }

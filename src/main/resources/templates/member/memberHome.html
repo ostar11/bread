@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="ko">
+<html>
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<h1>CUSTOMER</h1>
+<div th:unless="${loginId == null}">
+    <h3>[[${loginId}]]님 환영합니다!</h3>
+    <button onclick="location.href='/member/logout'">로그아웃</button>
+</div>
+</body>
+</html>
