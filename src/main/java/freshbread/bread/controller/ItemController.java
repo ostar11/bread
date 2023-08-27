@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/menu")
+@RequestMapping("menu")
 public class ItemController {
 
     private final ItemService itemService;
@@ -21,6 +21,6 @@ public class ItemController {
     public String menuHome(Model model) {
         List<Item> items = itemService.findItems();
         model.addAttribute("items", items);
-        return "/item/menuList";
+        return "item/menuList";
     }
 }
