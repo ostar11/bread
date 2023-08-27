@@ -4,6 +4,7 @@ import freshbread.bread.controller.MemberForm;
 import freshbread.bread.domain.Member;
 import freshbread.bread.repository.MemberRepository;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -71,10 +72,11 @@ public class MemberService {
             return null;
         }
 
-        Member findMember = memberRepository.findByLoginId(loginId);
-        if (findMember == null) {
+        Optional<Member> member = memberRepository.findByLoginId(loginId);
+        if (member.isEmpty()) {
             return null;
         }
-        return findMember;
+
+        return member.get();
     }
 }

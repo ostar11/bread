@@ -2,6 +2,7 @@ package freshbread.bread.repository;
 
 import freshbread.bread.domain.Member;
 import java.util.List;
+import java.util.Optional;
 import javax.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -20,10 +21,12 @@ public class MemberRepository {
         return em.find(Member.class, memberId);
     }
 
-    public Member findByLoginId(String loginId) {
-        return em.createQuery("select m from Member m where m.loginId = :loginId", Member.class)
+    public Optional<Member> findByLoginId(String loginId) {
+        // getSingleResult() -> NoResultException 발생
+        List<Member> members = em.createQuery("select m from Member m where loginId = :loginId", Member.class)
                 .setParameter("loginId", loginId)
-                .getSingleResult();
+                .getResultList();
+        return members.stream().findAny();
     }
 
     // 이름 -> 아이디
