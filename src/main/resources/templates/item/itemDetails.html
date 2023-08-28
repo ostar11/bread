@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
+</head>
+<body>
+<!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container px-4 px-lg-5">
+            <a class="navbar-brand" href="#!">Fresh Bread</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/menu">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/member/info">My Page</a>
+                    </li>
+                </ul>
+                <form class="d-flex" action= "/cart" method="get">
+                    <button class="btn btn-outline-dark" type="submit">
+                        <i class="bi-cart-fill me-1"></i>
+                        Cart
+                        <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </nav>
+    <div class="product_detail" th:object="${item}">
+        <h4 th:text="${item.name}">상품명</h4>
+        <p th:text="${item.details}">제품 설명</p>
+        <p th:text="|가격 : ${item.price} 원|">가격</p>
+        <p th:text="|남은 수량 : ${item.stockQuantity} 개|">재고</p>
+    </div>
+    <div class="myFood">
+        <a role="button" title="나만의 빵 등록버튼">
+            <span>
+                "나만의 빵으로 등록"
+            </span>
+        </a>
+    </div>
+
+</body>
+</html>

@@ -63,14 +63,14 @@
                                     <!-- Product name-->
                                     <h5 class="fw-bolder" th:text="${item.name}">상품명</h5>
                                     <!-- Product price-->
-                                    <h5 class="fw-bolder" th:text="${item.price}">가격</h5>
+                                    <h5 class="fw-bolder" th:text="|가격 : ${item.price}원|">가격</h5>
                                     <!-- Product stockQuantity-->
-                                    <h5 class="fw-bolder" th:text="${item.stockQuantity}">재고</h5>
+                                    <h5 class="fw-bolder" th:text="|남은 수량 : ${item.stockQuantity}개|">재고</h5>
                                 </div>
                             </div>
                             <!-- Product actions-->
                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="/menu/item_view">View options</a></div>
+                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#" th:href="@{/menu/{id} (id=${item.id})}">View options</a></div>
                             </div>
                         </div>
                     </div>
