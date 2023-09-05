@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-    private final BCryptPasswordEncoder encoder;
+    private final PasswordEncoder encoder;
 
     /**
      * 회원가입1 : 비밀번호 암호화 x
@@ -43,8 +44,8 @@ public class MemberService {
     /**
      * 회원가입 2 : 비밀번호 암호화 O
      * 화면에서 MemberForm(loginId, password, name, phoneNumber, city, street, zipcode)을 입력받아 Member로 변환
-     * 추가적으로 password를 암호화해서 저장한다.
-     * loginId, phoneNumber 중복체크는 에러메시지를 표시해야하므로 Controller에서 진행한다.
+     * 추가적으로 password 를 암호화해서 저장한다.
+     * loginId, phoneNumber 중복체크는 에러메시지를 표시해야하므로 Controller 에서 진행한다.
      */
     @Transactional
     public Long join2(MemberForm memberForm) {

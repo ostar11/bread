@@ -1,5 +1,7 @@
 package freshbread.bread.domain;
 
+import static lombok.AccessLevel.*;
+
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -14,7 +16,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = PROTECTED)
 public class Member {
 
     @Id @GeneratedValue
@@ -47,7 +49,7 @@ public class Member {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.address = address;
-        this.role = Role.CUSTOMER;
+        this.role = Role.ADMIN;
         this.createdDate = LocalDateTime.now();
     }
 }

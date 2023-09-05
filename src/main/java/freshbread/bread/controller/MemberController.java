@@ -74,6 +74,7 @@ public class MemberController {
             Member member = memberService.getLoginUserByLoginId(auth.getName());
             if (member != null) {
                 model.addAttribute("loginId", member.getLoginId());
+                model.addAttribute("role", member.getRole());
             }
         }
         return "member/memberHome";
@@ -84,6 +85,7 @@ public class MemberController {
         if (auth != null) {
             Member member = memberService.getLoginUserByLoginId(auth.getName());
             if (member != null) {
+                model.addAttribute("role", member.getRole());
                 model.addAttribute("loginId", member.getLoginId());
             }
         }

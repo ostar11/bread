@@ -5,12 +5,12 @@
     <meta charset="UTF-8">
 </head>
 <body>
-<h1>CUSTOMER</h1>
+<h1 th:text="${role}">고객</h1>
 <div th:unless="${loginId == null}">
     <h3>[[${loginId}]]님 환영합니다!</h3>
     <button onclick="location.href='/menu'">메뉴</button>
     <button onclick="location.href='/info'">회원정보</button>
-    <button onclick="location.href='/logout'">로그아웃</button>
+    <button onclick="location.href='/member/logout'">로그아웃</button>
 </div>
 </body>
 </html>

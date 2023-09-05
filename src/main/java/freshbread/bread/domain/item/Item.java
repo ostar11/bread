@@ -22,7 +22,7 @@ public class Item {
     @Column(name = "item_id")
     private Long id;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String name;
     private int price;
     private int stockQuantity;
@@ -38,7 +38,16 @@ public class Item {
         this.stockQuantity = stockQuantity;
         this.details = details;
         createdDate = LocalDateTime.now();
-        status = ItemStatus.ON_SALE;
+        status = ItemStatus.SOLD_OUT;
+    }
+
+    public Item(String name, int price, String details) {
+        this.name = name;
+        this.price = price;
+        this.details = details;
+        this.stockQuantity = 0;
+        createdDate = LocalDateTime.now();
+        status = ItemStatus.SOLD_OUT;
     }
 
     public void addStock(int quantity) {

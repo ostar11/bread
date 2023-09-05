@@ -45,10 +45,10 @@ public class MemberRepository {
         return !members.isEmpty();
     }
 
-    public boolean existsByPhoneNumber(String phoneNUmber) {
+    public boolean existsByPhoneNumber(String phoneNumber) {
         List<Member> members = em.createQuery("select m from Member m where m.phoneNumber = :phoneNumber",
                         Member.class)
-                .setParameter("phoneNumber", phoneNUmber)
+                .setParameter("phoneNumber", phoneNumber)
                 .getResultList();
 
         return !members.isEmpty();

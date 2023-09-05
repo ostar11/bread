@@ -28,4 +28,10 @@ public class ItemRepository {
         return em.createQuery("select i from Item i", Item.class).getResultList();
     }
 
+    public boolean existsByItemName(String itemName) {
+        List<Item> items = em.createQuery("select i from Item i where i.name = :itemName", Item.class).
+                setParameter("itemName", itemName)
+                .getResultList();
+        return !items.isEmpty();
+    }
 }
