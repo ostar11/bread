@@ -7,18 +7,24 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 @Entity
-public class Delivery {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Pickup {
 
     @Id @GeneratedValue
-    @Column(name = "delivery_id")
+    @Column(name = "pickup_id")
     private Long id;
 
-    @Embedded
-    private Address address;
+//    @Embedded
+//    private Address address;
 
     @Enumerated(EnumType.STRING)
-    private DeliveryStatus status;
+    private PickupStatus status;
 
+    public Pickup(PickupStatus status) {
+        this.status = status;
+    }
 }

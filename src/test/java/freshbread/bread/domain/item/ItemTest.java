@@ -13,7 +13,8 @@ class ItemTest {
     @Test
     void 재고_증가() throws Exception {
         //given
-        Item item = createItem("식빵", 2000, 10, "우유로 만든 기본식빵");
+//        Item item = createItem("식빵", 2000, 10, "우유로 만든 기본식빵");
+        Item item = createItem("식빵", 2000, "우유로 만든 기본식빵");
         //when
         item.addStock(15);
         //then
@@ -23,7 +24,8 @@ class ItemTest {
     @Test
     void 재고_감소() throws Exception {
         //given
-        Item item = createItem("식빵", 2000, 10, "우유로 만든 기본식빵");
+//        Item item = createItem("식빵", 2000, 10, "우유로 만든 기본식빵");
+        Item item = createItem("식빵", 2000, "우유로 만든 기본식빵");
         //when
         item.removeStock(5);
         //then
@@ -32,11 +34,18 @@ class ItemTest {
 
     @Test
     void 재고_감소_예외() throws Exception {
-        Item item = createItem("식빵", 2000, 10, "우유로 만든 기본식빵");
+//        Item item = createItem("식빵", 2000, 10, "우유로 만든 기본식빵");
+        Item item = createItem("식빵", 2000, "우유로 만든 기본식빵");
         assertThrows(NotEnoughStockException.class, () -> item.removeStock(20));
     }
 
-    private Item createItem(String itemName, int price, int stockQuantity, String itemDetails) {
-        return new Item(itemName, price, stockQuantity, itemDetails);
+//    private Item createItem(String itemName, int price, int stockQuantity, String itemDetails) {
+//        return new Item(itemName, price, stockQuantity, itemDetails);
+//    }
+
+    private Item createItem(String itemName, int price, String itemDetails) {
+        Item item = new Item(itemName, price, itemDetails);
+        item.addStock(10);
+        return item;
     }
 }

@@ -3,16 +3,15 @@ package freshbread.bread.config;
 import freshbread.bread.domain.Member;
 import java.util.ArrayList;
 import java.util.Collection;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-public class CustomUserDetails implements UserDetails {
+public class MemberDetails implements UserDetails {
 
     private Member member;
 
-    public CustomUserDetails(Member member) {
+    public MemberDetails(Member member) {
         this.member = member;
     }
 

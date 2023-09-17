@@ -23,7 +23,8 @@ class ItemServiceTest {
     @Test
     void 상품_등록() throws Exception {
         //given
-        Item item = createItem("크로와상", 1000, 20, "고급 버터를 사용한 크로와상");
+//        Item item = createItem("크로와상", 1000, 20, "고급 버터를 사용한 크로와상");
+        Item item = new Item("크로와상", 1000, "고급 버터를 사용한 크로와상");
         itemService.saveItem(item);
 
         //when
@@ -33,8 +34,8 @@ class ItemServiceTest {
         assertEquals(item.getName(), findItem.getName());
     }
 
-    private Item createItem(String itemName, int price, int stockQuantity, String itemDetails) {
-        return new Item(itemName, price, stockQuantity, itemDetails);
-    }
+//    private Item createItem(String itemName, int price, int stockQuantity, String itemDetails) {
+//        return new Item(itemName, price, stockQuantity, itemDetails);
+//    }
 
 }

@@ -32,23 +32,24 @@ public class Item {
     @Enumerated(EnumType.STRING)
     private ItemStatus status;
 
-    public Item(String name, int price, int stockQuantity, String details) {
-        this.name = name;
-        this.price = price;
-        this.stockQuantity = stockQuantity;
-        this.details = details;
-        createdDate = LocalDateTime.now();
-        status = ItemStatus.SOLD_OUT;
-    }
-
     public Item(String name, int price, String details) {
         this.name = name;
         this.price = price;
-        this.details = details;
         this.stockQuantity = 0;
-        createdDate = LocalDateTime.now();
-        status = ItemStatus.SOLD_OUT;
+        this.details = details;
+        this.createdDate = LocalDateTime.now();
+        this.status = ItemStatus.SOLD_OUT;
     }
+
+//    public Item(String name, int price, String details) {
+////        this.name = name;
+////        this.price = price;
+////        this.details = details;
+////        this.stockQuantity = 0;
+////        createdDate = LocalDateTime.now();
+////        status = ItemStatus.SOLD_OUT;
+//        return new Item(name, price, details);
+//    }
 
     public void addStock(int quantity) {
         this.stockQuantity += quantity;

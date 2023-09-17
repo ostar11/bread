@@ -3,6 +3,8 @@ package freshbread.bread.domain;
 import static lombok.AccessLevel.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -10,7 +12,9 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -35,6 +39,9 @@ public class Member {
     @Column(nullable = false, unique = true)
     private String phoneNumber;
 
+    @OneToMany(mappedBy = "member")
+    private List<Order> orders = new ArrayList<>();
+
     @Embedded
     private Address address;
 
@@ -49,7 +56,27 @@ public class Member {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.address = address;
-        this.role = Role.ADMIN;
+        this.role = Role.CUSTOMER;
         this.createdDate = LocalDateTime.now();
     }
+
+//    private Member(String loginId, String password, String name, String phoneNumber, Address address) {
+//        this.loginId = loginId;
+//        this.password = password;
+//        this.name = name;
+//        this.phoneNumber = phoneNumber;
+//        this.address = address;
+//        this.createdDate = LocalDateTime.now();
+//    }
+
+    public static Member createAdmin(String loginId, String password, String name, String phoneNumber, Address address) {
+        Member admin = new Member(loginId, password, name, phoneNumber, address);
+        admin.roleUp();
+        return admin;
+    }
+
+    private void roleUp() {
+        this.role = Role.ADMIN;
+    }
+
 }

@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -35,14 +36,32 @@
         <p th:text="${item.details}">제품 설명</p>
         <p th:text="|가격 : ${item.price} 원|">가격</p>
         <p th:text="|남은 수량 : ${item.stockQuantity} 개|">재고</p>
+<!--        <a href="#" th:href="@{/items/{id}/order (id=${item.id})}">상품 주문</a>-->
+
+        <div sec:authorize="hasAuthority('CUSTOMER')">
+            <form role="form" th:action="@{/items/{id}/order (id=${item.id})}" method="post">
+                <div>
+                    <label for="count">주문수량</label>
+                    <input type="number" name="count" class="form-control" id="count" placeholder="주문 수량을 입력하세요">
+                </div>
+                <button type="submit">주문하기</button>
+            </form>
+        </div>
+
+        <div sec:authorize="hasAuthority('ADMIN')">
+            <button onclick="location.href='/admin/items/new'">상품 등록</button>
+        </div>
+
     </div>
-    <div class="myFood">
-        <a role="button" title="나만의 빵 등록버튼">
-            <span>
-                "나만의 빵으로 등록"
-            </span>
-        </a>
-    </div>
+
+<!--        좋아요 버튼 기능-->
+<!--    <div class="myFood">-->
+<!--        <a role="button" title="나만의 빵 등록버튼">-->
+<!--            <span>-->
+<!--                "나만의 빵으로 등록"-->
+<!--            </span>-->
+<!--        </a>-->
+<!--    </div>-->
 
 </body>
 </html>

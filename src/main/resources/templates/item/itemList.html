@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -69,15 +70,21 @@
                                 </div>
                             </div>
                             <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#" th:href="@{/menu/{id} (id=${item.id})}">View options</a></div>
+                            <div sec:authorize="isAuthenticated()" class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center"><a class="btn btn-outline-dark mt-auto">로그인하지 않으면 아무것도 못한다.</a></div>
+                            </div>
+                            <div sec:authorize="hasAuthority('CUSTOMER')" class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#" th:href="@{/items/{id} (id=${item.id})}">상세 보기 및 주문</a></div>
+                            </div>
+                            <div sec:authorize="hasAuthority('ADMIN')" class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#" th:href="@{admin/items/{id} (id=${item.id})}">관리자 메뉴</a></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-        <div>
+        <div sec:authorize="hasAuthority('ADMIN')">
             <button onclick="location.href='/admin/items/new'">상품 등록</button>
         </div>
 
