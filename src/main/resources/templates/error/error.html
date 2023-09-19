@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko"></html>
+<head>
+    <title>Error Page</title>
+</head>
+<body>
+<div th:text="${status}"></div>
+<div th:text="${error}"></div>
+<div th:text="${message}"></div>
+<button onclick="location.href='/items'">메뉴로 돌아가기</button>
+</body>
+</html>

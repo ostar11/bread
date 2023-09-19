@@ -33,10 +33,9 @@ public class ItemController {
     }
 
     @GetMapping("/{itemId}")
-    public String itemView(@PathVariable("itemId") Long itemId, Authentication auth, Model model) {
-        auth.getAuthorities();
+    public String itemView(@PathVariable("itemId") Long itemId, Model model) {
         Item item = itemService.findOne(itemId);
-        model.addAttribute(item);
+        model.addAttribute("item", item);
         return "item/itemDetails";
     }
 }

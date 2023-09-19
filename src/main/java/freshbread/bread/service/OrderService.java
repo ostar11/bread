@@ -7,6 +7,7 @@ import freshbread.bread.domain.OrderItem;
 import freshbread.bread.domain.Pickup;
 import freshbread.bread.domain.PickupStatus;
 import freshbread.bread.domain.item.Item;
+import freshbread.bread.exception.NoStockQuantityException;
 import freshbread.bread.repository.ItemRepository;
 import freshbread.bread.repository.MemberRepository;
 import freshbread.bread.repository.OrderRepository;
@@ -30,7 +31,10 @@ public class OrderService {
         Member member = memberRepository.findByLoginId(loginId)
                 .orElseThrow(() -> new IllegalStateException("사용자를 찾을 수 없습니다. 다시 로그인 해주세요."));
         // 상품 엔티티 조회
-        Item item = itemRepository.findOne(itemId);
+//        Item item = itemRepository.findOne(itemId);
+        Item item = itemRepository.findItemWithOnSale(itemId)
+                .orElseThrow(() -> new NoStockQuantityException("재고가 소진되었습니다."));
+
         // 픽업정보 생성
         Pickup pickup = new Pickup(PickupStatus.WAIT);
 
@@ -45,4 +49,7 @@ public class OrderService {
         return order.getId();
     }
 
+    public boolean checkOrderCount(int count) {
+        return (count >= 1 && count <= 10) ? true : false;
+    }
 }

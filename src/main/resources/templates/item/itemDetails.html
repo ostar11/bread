@@ -36,7 +36,6 @@
         <p th:text="${item.details}">제품 설명</p>
         <p th:text="|가격 : ${item.price} 원|">가격</p>
         <p th:text="|남은 수량 : ${item.stockQuantity} 개|">재고</p>
-<!--        <a href="#" th:href="@{/items/{id}/order (id=${item.id})}">상품 주문</a>-->
 
         <div sec:authorize="hasAuthority('CUSTOMER')">
             <form role="form" th:action="@{/items/{id}/order (id=${item.id})}" method="post">
