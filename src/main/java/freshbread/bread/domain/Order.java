@@ -24,7 +24,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "Orders")
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+//@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Order {
 
     @Id @GeneratedValue
@@ -38,19 +38,14 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems = new ArrayList<>();
 
-    @OneToOne(fetch = LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "pickup_id")
-    private Pickup pickup;
-
     private LocalDateTime orderDate;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
-    private Order(Pickup pickup) {
-        this.pickup = pickup;
+    protected Order() {
         orderDate = LocalDateTime.now();
-        orderStatus = OrderStatus.ORDER;
+        orderStatus = OrderStatus.READY;
     }
 
     //=== 연관관계 메서드 ===//
@@ -64,14 +59,28 @@ public class Order {
         orderItem.registerOrder(this);
     }
 
-
     // == 생성 메서드 == //
-    public static Order createOrder(Member member, Pickup pickup, OrderItem... orderItems) {
-        Order order = new Order(pickup);
+    public static Order createOrder(Member member, OrderItem... orderItems) {
+//        Order order = new Order(pickup);
+        Order order = new Order();
         order.setMember(member);
         for (OrderItem orderitem : orderItems) {
             order.addOrderItem(orderitem);
         }
         return order;
+    }
+
+    public void cancel() {
+        if (orderStatus != OrderStatus.READY) {
+            throw new IllegalStateException("이미 준비된 상품은 취소가 불가능합니다.");
+        }
+        this.cancelOrder();
+        for (OrderItem orderItem : orderItems) {
+            orderItem.cancel();
+        }
+    }
+
+    private void cancelOrder() {
+        this.orderStatus = OrderStatus.CANCEL;
     }
 }

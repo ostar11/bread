@@ -53,4 +53,8 @@ public class Item {
         this.stockQuantity -= quantity;
     }
 
+    public void startSale() {
+        this.status = ItemStatus.ON_SALE;
+    }
+
 }

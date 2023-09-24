@@ -1,5 +1,5 @@
 package freshbread.bread.domain;
 
 public enum OrderStatus {
-    ORDER, CANCEL
+    READY, WAIT, PICKUP, CANCEL
 }

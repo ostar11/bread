@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container">
+    <div>
+        <div>
+        <form th:object="${orderSearch}" class="form-inline">
+<!--            <div class="form-group mb-2">-->
+<!--                <input type="text" th:field="*{memberName}" class="form- control" placeholder="시작날짜"/>-->
+<!--            </div>-->
+<!--            <div class="form-group mb-2">-->
+<!--                <input type="text" th:field="*{memberName}" class="form- control" placeholder="마지막 날짜"/>-->
+<!--            </div>-->
+            <div class="form-group mx-sm-1 mb-2">
+                <select th:field="*{orderStatus}" class="form-control"> <option value="">주문상태</option>
+                    <option th:each=
+                                    "status : ${T(freshbread.bread.domain.OrderStatus).values()}"
+                            th:value="${status}"
+                            th:text="${status}">option
+                    </option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary mb-2">검색</button>
+        </form>
+    </div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>#</th> <th>대표상품</th> <th>주문가격</th> <th>주문수량</th> <th>주문 시간</th> <th>주문상태</th> <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="result : ${results}">
+                <td th:text="${result.orderId}"></td>
+                <td th:text="${result.orderItems[0].itemName}"></td>
+                <td th:text="${result.orderItems[0].orderPrice}"></td>
+                <td th:text="${result.orderItems[0].orderCount}"></td>
+                <td th:text="${result.orderDate}"></td>
+                <td th:text="${result.orderStatus}"></td>
+
+<!--                주문 취소 버튼-->
+                <td>
+                    <a th:if="${result.orderStatus.name() == 'READY'}" href="#"
+                       th:href="'javascript:cancel('+${result.orderId}+')'"
+                       class="btn btn-danger">CANCEL</a>
+                </td>
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+<!--    <div th:replace="fragments/footer :: footer"/>-->
+</div> <!-- /container -->
+</body>
+<!--자바스크립트 취소 로직-->
+<script>
+    function cancel(id) {
+        var form = document.createElement("form");
+        form.setAttribute("method", "post");
+        form.setAttribute("action", "/orders/" + id + "/cancel");
+        document.body.appendChild(form);
+        form.submit();
+    }
+</script>
+</html>

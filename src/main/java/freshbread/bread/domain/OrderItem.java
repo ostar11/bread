@@ -50,4 +50,15 @@ public class OrderItem {
     public void registerOrder(Order order) {
         this.order = order;
     }
+
+    /**
+     * 주문 상품 전체 가격 조회
+     */
+    public int getTotalPrice() {
+        return getOrderPrice() * getCount();
+    }
+
+    public void cancel() {
+        getItem().addStock(count);
+    }
 }
