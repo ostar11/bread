@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
+</head>
+<body>
+<!-- Navigation-->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container px-4 px-lg-5">
+        <a class="navbar-brand" href="#!">Fresh Bread</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/menu">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/member/info">My Page</a>
+                </li>
+            </ul>
+            <form class="d-flex" action= "/cart" method="get">
+                <button class="btn btn-outline-dark" type="submit">
+                    <i class="bi-cart-fill me-1"></i>
+                    Cart
+                    <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                </button>
+            </form>
+        </div>
+    </div>
+</nav>
+<!--entity를 뷰에 그대로 노출-->
+<!--<div class="product_detail" th:object="${notification}">-->
+<!--    <h4 th:text="${notification.id}">id</h4>-->
+<!--    <p th:text="|알림 내용 : ${notification.comment}|">알림 설명</p>-->
+<!--    <p th:text="|알림 시간 : ${notification.createdDate}|">알림 시간</p>-->
+<!--&lt;!&ndash;    여기부터 수정&ndash;&gt;-->
+<!--&lt;!&ndash;    <button onclick="location.href='/admin/items/new'">상품 등록</button>&ndash;&gt;-->
+<!--&lt;!&ndash;    <a class="btn btn-outline-dark mt-auto" href="#" th:href="@{/items/{id} (id=${item.id})}">상품 보러가기</a>&ndash;&gt;-->
+<!--    <a class="btn btn-outline-dark mt-auto" href="/items">상품 보러가기</a>-->
+<!--</div>-->
+
+<div class="product_detail" th:object="${response}">
+    <h4 th:text="${response.id}">id</h4>
+    <p th:text="|알림 내용 : ${response.content}|">알림 설명</p>
+    <p th:text="|알림 시간 : ${response.createdAt}|">알림 시간</p>
+    <!--    여기부터 수정-->
+    <!--    <button onclick="location.href='/admin/items/new'">상품 등록</button>-->
+    <a class="btn btn-outline-dark mt-auto" href="#" th:href="@{/items/{id} (id=${response.url})}">상품 보러가기</a>
+</div>
+
+<div class="list">
+    <a class="btn btn-outline-dark mt-auto" href="/notifications">목록으로</a>
+</div>
+</body>
+</html>

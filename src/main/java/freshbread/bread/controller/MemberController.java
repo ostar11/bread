@@ -1,11 +1,14 @@
 package freshbread.bread.controller;
 
+import freshbread.bread.config.MemberDetails;
 import freshbread.bread.domain.Address;
 import freshbread.bread.domain.Member;
 import freshbread.bread.service.MemberService;
+import freshbread.bread.service.NotificationService;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,13 +16,16 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 @Controller
 @RequiredArgsConstructor
 public class MemberController {
 
     private final MemberService memberService;
+    private final NotificationService notificationService;
 
     @GetMapping("/member/new")
     public String createForm(Model model) {
@@ -69,14 +75,19 @@ public class MemberController {
     }
 
     @GetMapping("/member")
-    public String memberHome(Model model, Authentication auth) {
-        if (auth != null) {
-            Member member = memberService.getLoginUserByLoginId(auth.getName());
+    public String memberHome(@AuthenticationPrincipal MemberDetails memberDetails,
+                             @RequestHeader(value = "Last-Event-ID", required = false, defaultValue = "") String lastEventId,
+                             Model model) {
+        if (memberDetails != null) {
+            Member member = memberService.getLoginUserByLoginId(memberDetails.getUsername());
             if (member != null) {
                 model.addAttribute("loginId", member.getLoginId());
                 model.addAttribute("role", member.getRole());
             }
         }
+
+        SseEmitter sse = notificationService.subscribe(memberDetails.getUsername(), lastEventId);
+
         return "member/memberHome";
     }
 

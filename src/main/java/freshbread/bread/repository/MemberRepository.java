@@ -1,6 +1,7 @@
 package freshbread.bread.repository;
 
 import freshbread.bread.domain.Member;
+import freshbread.bread.domain.Role;
 import java.util.List;
 import java.util.Optional;
 import javax.persistence.EntityManager;
@@ -52,5 +53,11 @@ public class MemberRepository {
                 .getResultList();
 
         return !members.isEmpty();
+    }
+
+    public List<Member> findByRole(Role role) {
+        return em.createQuery("select m from Member m where m.role = :role", Member.class)
+                .setParameter("role", role)
+                .getResultList();
     }
 }

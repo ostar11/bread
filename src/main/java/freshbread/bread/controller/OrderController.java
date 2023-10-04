@@ -1,11 +1,14 @@
 package freshbread.bread.controller;
 
 import freshbread.bread.config.MemberDetails;
+import freshbread.bread.domain.Notification.NotificationType;
 import freshbread.bread.domain.Order;
 import freshbread.bread.domain.OrderItem;
 import freshbread.bread.domain.OrderSearch;
 import freshbread.bread.domain.OrderStatus;
+import freshbread.bread.domain.item.Item;
 import freshbread.bread.service.ItemService;
+import freshbread.bread.service.NotificationService;
 import freshbread.bread.service.OrderService;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -32,19 +35,32 @@ public class OrderController {
 
     private final OrderService orderService;
     private final ItemService itemService;
+    private final NotificationService notificationService;
 
     /**
      * HTML form 으로 itemId, count 를 받아 주문 수행 주문은 최소 1개 최대 10개까지만 가능하도록 validation 진행
-     *
      * @param memberDetails : 회원 정보
      * @param itemId        : 상품 아이디로 상품 찾기
      * @param count         : 주문 수량 (1개 이상 10개 이하로만 메소드 수행)
      */
+//    @PostMapping("/items/{id}/order")
+//    public String order(@AuthenticationPrincipal MemberDetails memberDetails,
+//                        @PathVariable("id") Long itemId,
+//                        @RequestParam("count") @Range(min = 1, max = 10, message = "주문은 1개 이상 10개 이하까지만 가능합니다.") int count) {
+//        orderService.order(memberDetails, itemId, count);
+//        return "redirect:/items";
+//    }
+
     @PostMapping("/items/{id}/order")
-    public String order(@AuthenticationPrincipal MemberDetails memberDetails,
+    public String orderWithNotification(@AuthenticationPrincipal MemberDetails memberDetails,
                         @PathVariable("id") Long itemId,
                         @RequestParam("count") @Range(min = 1, max = 10, message = "주문은 1개 이상 10개 이하까지만 가능합니다.") int count) {
         orderService.order(memberDetails, itemId, count);
+        Item item = itemService.findOne(itemId);
+        if(item.checkStockQuantity()) {
+            notificationService.sendStockNotification(NotificationType.REST5, item.getName() + " " + item.getStockQuantity(),
+                    String.valueOf(item.getId()));
+        }
         return "redirect:/items";
     }
 

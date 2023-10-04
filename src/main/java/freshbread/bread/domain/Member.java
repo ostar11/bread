@@ -13,8 +13,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -50,6 +48,9 @@ public class Member {
 
     private LocalDateTime createdDate;
 
+    @OneToMany(mappedBy = "member")
+    private List<Notification> notifications = new ArrayList<>();
+
     public Member(String loginId, String password, String name, String phoneNumber, Address address) {
         this.loginId = loginId;
         this.password = password;
@@ -59,15 +60,6 @@ public class Member {
         this.role = Role.CUSTOMER;
         this.createdDate = LocalDateTime.now();
     }
-
-//    private Member(String loginId, String password, String name, String phoneNumber, Address address) {
-//        this.loginId = loginId;
-//        this.password = password;
-//        this.name = name;
-//        this.phoneNumber = phoneNumber;
-//        this.address = address;
-//        this.createdDate = LocalDateTime.now();
-//    }
 
     public static Member createAdmin(String loginId, String password, String name, String phoneNumber, Address address) {
         Member admin = new Member(loginId, password, name, phoneNumber, address);

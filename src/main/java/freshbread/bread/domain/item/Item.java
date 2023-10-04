@@ -57,4 +57,8 @@ public class Item {
         this.status = ItemStatus.ON_SALE;
     }
 
+    public boolean checkStockQuantity() {
+        return stockQuantity > 0 && stockQuantity <= 5;
+    }
+
 }
