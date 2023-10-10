@@ -3,12 +3,10 @@ package freshbread.bread.controller;
 import freshbread.bread.config.MemberDetails;
 import freshbread.bread.domain.item.Item;
 import freshbread.bread.service.ItemService;
-import java.util.Collection;
 import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/admin")
 @RequiredArgsConstructor
 @Slf4j
-public class adminController {
+public class AdminController {
 
     private final ItemService itemService;
 

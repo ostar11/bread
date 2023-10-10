@@ -30,9 +30,9 @@ public class OrderService {
     private final ItemRepository itemRepository;
 
     @Transactional
-    public Long order(MemberDetails memberDetails, Long itemId, int count) {
+    public Long order(String loginId, Long itemId, int count) {
         // 로그인 정보에서 회원 아이디 조회
-        String loginId = memberDetails.getUsername();
+//        String loginId = memberDetails.getUsername();
         // 회원 엔티티 조회
         Member member = memberRepository.findByLoginId(loginId)
                 .orElseThrow(() -> new IllegalStateException("사용자를 찾을 수 없습니다. 다시 로그인 해주세요."));

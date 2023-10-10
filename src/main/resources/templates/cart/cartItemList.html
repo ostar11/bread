@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container">
+    <div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+<!--                <th>#</th> <th>대표상품</th> <th>주문가격</th> <th>주문수량</th> <th>주문 시간</th> <th>주문상태</th> <th></th>-->
+                <th>상품명</th> <th>상품수량</th> <th>상품가격</th> <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="result : ${results}">
+                <td th:text="${result.itemName}"></td>
+                <td th:text="${result.itemCount}"></td>
+                <td th:text="${result.itemTotalPrice}"></td>
+
+                <!--                주문 취소 버튼-->
+<!--                <td>-->
+<!--                    <a th:if="${result.orderStatus.name() == 'READY'}" href="#"-->
+<!--                       th:href="'javascript:cancel('+${result.orderId}+')'"-->
+<!--                       class="btn btn-danger">CANCEL</a>-->
+<!--                </td>-->
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <h4 th:text="|총 금액 : ${cartTotalPrice}|">총 가격</h4>
+    </div>
+    <!--    <div th:replace="fragments/footer :: footer"/>-->
+</div> <!-- /container -->
+</body>
+<!--자바스크립트 취소 로직-->
+<script>
+    function cancel(id) {
+        var form = document.createElement("form");
+        form.setAttribute("method", "post");
+        form.setAttribute("action", "/cart/" + id + "/cancel");
+        document.body.appendChild(form);
+        form.submit();
+    }
+</script>
+</html>

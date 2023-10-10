@@ -1,11 +1,11 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://thymeleaf.org/extras/spring-security"
->
-    <title>Hello</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-</head>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: headFragment"></head>
+<!--    <title>Hello</title>-->
+<!--    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />-->
+<!--</head>-->
 <body>
+<header th:replace="fragments/header :: headerFragment"></header>
 <div class="container">
     <h1>지금 나온 빵</h1>
 
@@ -21,5 +21,6 @@
         <button onclick="location.href='/member/logout'">로그아웃</button>
     </div>
 </div>
+<footer th:replace="fragments/footer :: footerFragment"></footer>
 </body>
 </html>

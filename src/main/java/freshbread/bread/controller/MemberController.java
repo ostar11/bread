@@ -3,10 +3,12 @@ package freshbread.bread.controller;
 import freshbread.bread.config.MemberDetails;
 import freshbread.bread.domain.Address;
 import freshbread.bread.domain.Member;
+import freshbread.bread.service.CartService;
 import freshbread.bread.service.MemberService;
 import freshbread.bread.service.NotificationService;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -22,10 +24,12 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class MemberController {
 
     private final MemberService memberService;
     private final NotificationService notificationService;
+    private final CartService cartService;
 
     @GetMapping("/member/new")
     public String createForm(Model model) {
@@ -48,7 +52,9 @@ public class MemberController {
             return "member/createMemberForm";
         }
 
-        memberService.join2(form);
+//        memberService.join2(form);
+        Member member = memberService.join3(form);
+        cartService.assignCart(member);
 
         return "redirect:/";
     }
@@ -85,9 +91,9 @@ public class MemberController {
                 model.addAttribute("role", member.getRole());
             }
         }
-
+        log.info("로그인 완료 - MemberController::memberHome");
         SseEmitter sse = notificationService.subscribe(memberDetails.getUsername(), lastEventId);
-
+        log.info("sse 연결 완료 - MemberController::memberHome");
         return "member/memberHome";
     }
 

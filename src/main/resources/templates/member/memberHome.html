@@ -1,18 +1,25 @@
 <!DOCTYPE html>
-<html lang="ko">
-<html>
-<head>
-    <meta charset="UTF-8">
-</head>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/head :: headFragment"></head>
 <body>
+<nav th:replace="fragments/navbar :: navbarFragment"></nav>
+<header th:replace="fragments/header :: headerFragment"></header>
 <h1 th:text="${role}">고객</h1>
 <div th:unless="${loginId == null}">
     <h3>[[${loginId}]]님 환영합니다!</h3>
-    <button onclick="location.href='/items'">메뉴</button>
-    <button onclick="location.href='/orders'">주문 내역</button>
-    <button onclick="location.href='/notifications'">알림</button>
-    <button onclick="location.href='/info'">회원정보</button>
-    <button onclick="location.href='/member/logout'">로그아웃</button>
+    <div class="btn btn_for_customer">
+    <button onclick="location.href='/items'">메뉴</button></div>
+    <div class="btn btn_for_customer">
+        <button onclick="location.href='/orders'">주문 내역</button></div>
+    <div class="btn btn-for-customer">
+        <button onclick="location.href='/notifications'">알림</button></div>
+    <div class="btn btn-for-customer">
+        <button onclick="location.href='/info'">회원정보</button></div>
+    <div class="btn btn-for-customer">
+        <button onclick="location.href='/member/logout'">로그아웃</button></div>
 </div>
+<footer th:replace="fragments/footer :: footerFragment"></footer>
 </body>
 </html>

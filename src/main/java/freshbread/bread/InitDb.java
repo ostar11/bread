@@ -1,6 +1,7 @@
 package freshbread.bread;
 
 import freshbread.bread.domain.Address;
+import freshbread.bread.domain.Cart;
 import freshbread.bread.domain.Member;
 import freshbread.bread.domain.item.Item;
 import javax.annotation.PostConstruct;
@@ -37,11 +38,21 @@ public class InitDb {
 
             Address memberAddress1 = createAddress("jw 도시", "jw 길", "jw 집");
             Member member1 = new Member("jjw", encoder.encode("1234"), "jw", "111", memberAddress1);
+
+            Cart cart1 = new Cart();
+            cart1.enrollMember(member1);
+
             em.persist(member1);
+            em.persist(cart1);
 
             Address memberAddress2 = createAddress("cj 도시", "cj 길", "cj 집");
             Member member2 = new Member("cjw", encoder.encode("1234"), "cj", "222", memberAddress2);
+
+            Cart cart2 = new Cart();
+            cart2.enrollMember(member2);
+
             em.persist(member2);
+            em.persist(cart2);
         }
 
         public void createItems() {

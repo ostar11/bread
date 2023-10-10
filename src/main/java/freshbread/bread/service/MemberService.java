@@ -54,6 +54,13 @@ public class MemberService {
         return member.getId();
     }
 
+    @Transactional
+    public Member join3(MemberForm memberForm) {
+        Member member = memberForm.toEntity(encoder.encode(memberForm.getPassword()));
+        memberRepository.save(member);
+        return member;
+    }
+
     /**
      * loginId 중복체크
      */

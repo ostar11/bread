@@ -1,5 +1,6 @@
 package freshbread.bread.domain;
 
+import static javax.persistence.FetchType.*;
 import static lombok.AccessLevel.*;
 
 import java.time.LocalDateTime;
@@ -10,9 +11,11 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -51,6 +54,9 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Notification> notifications = new ArrayList<>();
 
+    @OneToOne(mappedBy = "member", fetch = LAZY)
+    private Cart cart;
+
     public Member(String loginId, String password, String name, String phoneNumber, Address address) {
         this.loginId = loginId;
         this.password = password;
@@ -71,4 +77,7 @@ public class Member {
         this.role = Role.ADMIN;
     }
 
+    public void enrollCart(Cart cart) {
+        this.cart = cart;
+    }
 }
