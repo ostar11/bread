@@ -17,14 +17,14 @@ public class CartRepository {
         em.persist(cart);
     }
 
-    public Cart findByMemberLoginId(String loginId) {
+    public List<Cart> findByMemberLoginId(String loginId) {
         List<Cart> carts = em.createQuery("select c from Cart c where c.member.loginId = :loginId", Cart.class)
                 .setParameter("loginId", loginId)
                 .getResultList();
-        return carts.get(0);
+        return carts;
     }
 
-    public Cart findByMember(Member member) {
+    public Cart findByMemberV1(Member member) {
         Cart cart = em.createQuery("select c from Cart c "
                         + " join fetch c.cartItems ci"
                         + " join fetch ci.item i"
@@ -34,7 +34,15 @@ public class CartRepository {
         return cart;
     }
 
-//    public Cart findByMember(Member member) {
-//
-//    }
+    public List<Cart> findByMemberV2(String loginId) {
+        List<Cart> carts = em.createQuery("select c from Cart c"
+                        + " join fetch c.member m"
+//                        + " join fetch c.cartItems ci"
+//                        + " join fetch ci.item i"
+                        + " where m.loginId = :loginId", Cart.class)
+                .setParameter("loginId", loginId)
+                .getResultList();
+        return carts;
+    }
+
 }

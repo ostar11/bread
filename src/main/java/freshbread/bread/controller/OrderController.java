@@ -7,6 +7,7 @@ import freshbread.bread.domain.OrderItem;
 import freshbread.bread.domain.OrderSearch;
 import freshbread.bread.domain.OrderStatus;
 import freshbread.bread.domain.item.Item;
+import freshbread.bread.service.CartService;
 import freshbread.bread.service.ItemService;
 import freshbread.bread.service.NotificationService;
 import freshbread.bread.service.OrderService;
@@ -36,6 +37,7 @@ public class OrderController {
     private final OrderService orderService;
     private final ItemService itemService;
     private final NotificationService notificationService;
+    private final CartService cartService;
 
     /**
      * HTML form 으로 itemId, count 를 받아 주문 수행 주문은 최소 1개 최대 10개까지만 가능하도록 validation 진행
@@ -63,6 +65,16 @@ public class OrderController {
         }
         return "redirect:/items";
     }
+
+    @PostMapping("/cart/order")
+    public String orderCartItemWithNotification(@AuthenticationPrincipal MemberDetails memberDetails) {
+        List<Long> cartItemIdList = orderService.orderCartItem(memberDetails.getUsername());
+//        notificationService.sendStockNotifications(memberDetails.getUsername());
+        cartService.deleteCartItem(cartItemIdList);
+        return "redirect:/items";
+    }
+
+
 
     /**
      * orderId, orderStatus, OrderDate, memberName 정보를 가지는 orderResponseDto 를 반환

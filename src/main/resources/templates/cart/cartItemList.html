@@ -1,12 +1,16 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-<div class="container">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
+</head>
+<div class="container" th:if="${results.size() > 0}">
     <div>
         <table class="table table-striped">
             <thead>
             <tr>
-<!--                <th>#</th> <th>대표상품</th> <th>주문가격</th> <th>주문수량</th> <th>주문 시간</th> <th>주문상태</th> <th></th>-->
                 <th>상품명</th> <th>상품수량</th> <th>상품가격</th> <th></th>
             </tr>
             </thead>
@@ -29,9 +33,22 @@
     </div>
     <div>
         <h4 th:text="|총 금액 : ${cartTotalPrice}|">총 가격</h4>
+        <form th:action="@{/cart/order}" method="post">
+            <button type="submit" class="btn btn-primary">주문하기</button>
+<!--            <a href="" class="btn btn-danger">CANCEL</a>-->
+        </form>
     </div>
+
+
     <!--    <div th:replace="fragments/footer :: footer"/>-->
 </div> <!-- /container -->
+
+<div th:if="${results.size() == 0}">
+    <h5>장바구니가 비었습니다.</h5>
+</div>
+<div>
+    <button onclick="location.href='/items'">메뉴로 돌아가기</button>
+</div>
 </body>
 <!--자바스크립트 취소 로직-->
 <script>

@@ -40,17 +40,18 @@ public class CartController {
                        Model model) {
         Cart cart = cartService.findCart(memberDetails.getUsername());
         List<CartItem> cartItems = cart.getCartItems();
-//        for (CartItem cartItem : cartItems) {
-//            totalPrice += cartItem.getTotalPrice();
-//        }
+
         int cartTotalPrice = cartItems.stream()
                 .mapToInt(CartItem::getTotalPrice)
                 .sum();
+
         List<CartItemDto> results = cartItems.stream()
                 .map(c -> new CartItemDto(c))
                 .collect(Collectors.toList());
+
         model.addAttribute("results", results);
         model.addAttribute("cartTotalPrice", cartTotalPrice);
+
         return "cart/cartItemList";
     }
 

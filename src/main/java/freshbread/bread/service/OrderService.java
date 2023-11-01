@@ -1,6 +1,8 @@
 package freshbread.bread.service;
 
 import freshbread.bread.config.MemberDetails;
+import freshbread.bread.domain.Cart;
+import freshbread.bread.domain.CartItem;
 import freshbread.bread.domain.Member;
 import freshbread.bread.domain.Order;
 import freshbread.bread.domain.OrderItem;
@@ -10,9 +12,12 @@ import freshbread.bread.domain.Pickup;
 import freshbread.bread.domain.PickupStatus;
 import freshbread.bread.domain.item.Item;
 import freshbread.bread.exception.NoStockQuantityException;
+import freshbread.bread.repository.CartItemRepository;
+import freshbread.bread.repository.CartRepository;
 import freshbread.bread.repository.ItemRepository;
 import freshbread.bread.repository.MemberRepository;
 import freshbread.bread.repository.OrderRepository;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +33,8 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final MemberRepository memberRepository;
     private final ItemRepository itemRepository;
+    private final CartRepository cartRepository;
+    private final CartItemRepository cartItemRepository;
 
     @Transactional
     public Long order(String loginId, Long itemId, int count) {
@@ -55,6 +62,30 @@ public class OrderService {
         return order.getId();
     }
 
+    @Transactional
+    public List<Long> orderCartItem(String loginId) {
+        log.info("장바구니 상품 주문");
+        Member member = memberRepository.findByLoginId(loginId)
+                .orElseThrow(() -> new IllegalStateException("사용자를 찾을 수 없습니다. 다시 로그인 해주세요."));
+//        Cart cart = cartRepository.findByMemberV1(member);
+        List<Cart> carts = cartRepository.findByMemberV2(loginId);
+        if(carts.size() == 0) {
+            throw new IllegalStateException("Cart entity 가 없습니다.");
+        }
+
+        Cart cart = carts.get(0);
+        List<CartItem> cartItems = cart.getCartItems();
+        List<Long> cartItemIdList = new ArrayList<>();
+        for (CartItem cartItem : cartItems) {
+            Item item = cartItem.getItem();
+            OrderItem orderItem = OrderItem.createOrderItem(item, item.getPrice(), cartItem.getCount());
+            Order order = Order.createOrder(member, orderItem);
+            orderRepository.save(order);
+            cartItemIdList.add(cartItem.getId());
+        }
+        return cartItemIdList;
+    }
+
     public List<Order> findAllOrders(MemberDetails memberDetails) {
         String loginId = memberDetails.getUsername();
         Member member = memberRepository.findByLoginId(loginId)
@@ -78,4 +109,5 @@ public class OrderService {
         Order order = orderRepository.findOne(orderId);
         order.cancel();
     }
+
 }
