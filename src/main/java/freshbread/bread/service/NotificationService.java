@@ -5,9 +5,11 @@ import freshbread.bread.domain.Member;
 import freshbread.bread.domain.Notification;
 import freshbread.bread.domain.Notification.NotificationType;
 import freshbread.bread.domain.Role;
+import freshbread.bread.domain.item.Item;
 import freshbread.bread.dto.NotificationDto;
 import freshbread.bread.dto.NotificationDto.Response;
 import freshbread.bread.repository.EmitterRepository;
+import freshbread.bread.repository.ItemRepository;
 import freshbread.bread.repository.MemberRepository;
 import freshbread.bread.repository.NotificationRepository;
 import java.io.IOException;
@@ -15,10 +17,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -29,6 +33,7 @@ public class NotificationService {
     private final EmitterRepository emitterRepository;
     private final NotificationRepository notificationRepository;
     private final MemberRepository memberRepository;
+    private final ItemRepository itemRepository;
 
     public SseEmitter subscribe(String username, String lastEventId) {
         String emitterId = makeTimeIncludeId(username); // 로그인 아이디과 현재시간을 합친 문자열로 emitterId 생성
@@ -109,6 +114,20 @@ public class NotificationService {
         List<Member> members = memberRepository.findByRole(Role.CUSTOMER);
         for (Member member : members) {
             send(member, NotificationType.REST5, content, url);
+        }
+    }
+
+    public void sendStockNotificationV2(NotificationType notificationType, Long itemId) {
+
+        List<Member> members = memberRepository.findByRole(Role.CUSTOMER);
+        Item item = itemRepository.findOne(itemId);
+        log.info("재고량은 충분? = {}", item.checkStockQuantity());
+        if (item.checkStockQuantity()) {
+            for (Member member : members) {
+                String content = item.getName() + " 남은 수량 : " + item.getStockQuantity();
+                String url = String.valueOf(item.getId());
+                send(member, NotificationType.REST5, content, url);
+            }
         }
     }
 

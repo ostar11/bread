@@ -58,11 +58,12 @@ public class OrderController {
                         @PathVariable("id") Long itemId,
                         @RequestParam("count") @Range(min = 1, max = 10, message = "주문은 1개 이상 10개 이하까지만 가능합니다.") int count) {
         orderService.order(memberDetails.getUsername(), itemId, count);
-        Item item = itemService.findOne(itemId);
-        if(item.checkStockQuantity()) {
-            notificationService.sendStockNotification(NotificationType.REST5, item.getName() + " " + item.getStockQuantity(),
-                    String.valueOf(item.getId()));
-        }
+//        Item item = itemService.findOne(itemId);
+//        if(item.checkStockQuantity()) {
+//            notificationService.sendStockNotification(NotificationType.REST5, item.getName() + " " + item.getStockQuantity(),
+//                    String.valueOf(item.getId()));
+//        }
+        notificationService.sendStockNotificationV2(NotificationType.REST5, itemId);
         return "redirect:/items";
     }
 
