@@ -65,8 +65,8 @@ public class OrderService {
     @Transactional
     public List<Long> orderCartItem(String loginId) {
         log.info("장바구니 상품 주문");
-        Member member = memberRepository.findByLoginId(loginId)
-                .orElseThrow(() -> new IllegalStateException("사용자를 찾을 수 없습니다. 다시 로그인 해주세요."));
+//        Member member = memberRepository.findByLoginId(loginId)
+//                .orElseThrow(() -> new IllegalStateException("사용자를 찾을 수 없습니다. 다시 로그인 해주세요."));
 //        Cart cart = cartRepository.findByMemberV1(member);
         List<Cart> carts = cartRepository.findByMemberV2(loginId);
         if(carts.size() == 0) {
@@ -79,7 +79,7 @@ public class OrderService {
         for (CartItem cartItem : cartItems) {
             Item item = cartItem.getItem();
             OrderItem orderItem = OrderItem.createOrderItem(item, item.getPrice(), cartItem.getCount());
-            Order order = Order.createOrder(member, orderItem);
+            Order order = Order.createOrder(cart.getMember(), orderItem);
             orderRepository.save(order);
             cartItemIdList.add(cartItem.getId());
         }
