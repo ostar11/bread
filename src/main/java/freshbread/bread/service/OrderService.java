@@ -76,13 +76,18 @@ public class OrderService {
         Cart cart = carts.get(0);
         List<CartItem> cartItems = cart.getCartItems();
         List<Long> cartItemIdList = new ArrayList<>();
+        List<OrderItem> orderItems = new ArrayList<>();
         for (CartItem cartItem : cartItems) {
             Item item = cartItem.getItem();
             OrderItem orderItem = OrderItem.createOrderItem(item, item.getPrice(), cartItem.getCount());
-            Order order = Order.createOrder(cart.getMember(), orderItem);
-            orderRepository.save(order);
+            orderItems.add(orderItem);
+//            Order order = Order.createOrder(cart.getMember(), orderItem);
+//            orderRepository.save(order);
             cartItemIdList.add(cartItem.getId());
         }
+        Order order = Order.createCartOrder(cart.getMember(), orderItems);
+        orderRepository.save(order);
+
         return cartItemIdList;
     }
 

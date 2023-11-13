@@ -70,6 +70,16 @@ public class Order {
         return order;
     }
 
+    public static Order createCartOrder(Member member, List<OrderItem> orderItems) {
+//        Order order = new Order(pickup);
+        Order order = new Order();
+        order.setMember(member);
+        for (OrderItem orderitem : orderItems) {
+            order.addOrderItem(orderitem);
+        }
+        return order;
+    }
+
     public void cancel() {
         if (orderStatus != OrderStatus.READY) {
             throw new IllegalStateException("이미 준비된 상품은 취소가 불가능합니다.");
