@@ -131,6 +131,7 @@ public class OrderController {
         private LocalDateTime orderDate;
         private OrderStatus orderStatus;
         private List<OrderItemDto> orderItems;
+        private int orderTotalPrice;
 
         public OrderDto(Order order) {
             orderId = order.getId();
@@ -139,6 +140,9 @@ public class OrderController {
             orderItems = order.getOrderItems().stream()
                     .map(orderItem -> new OrderItemDto(orderItem))
                     .collect(Collectors.toList());
+            orderTotalPrice += order.getOrderItems().stream()
+                    .mapToInt(OrderItem::getTotalPrice)
+                    .sum();
         }
     }
 
