@@ -115,4 +115,7 @@ public class OrderService {
         order.cancel();
     }
 
+    public Order findOrder(Long orderId) {
+        return orderRepository.findOne(orderId);
+    }
 }

@@ -97,16 +97,6 @@ public class OrderController {
      * @param model
      * @return
      */
-//    @GetMapping("/orders")
-//    public String orderItemList(@AuthenticationPrincipal MemberDetails memberDetails, Model model) {
-//        List<Order> orders = orderService.findAllOrders(memberDetails);
-//        List<OrderDto> results = orders.stream()
-//                .map(o -> new OrderDto(o))
-//                .collect(Collectors.toList());
-//        model.addAttribute("results", results);
-//        return "order/orderList";
-//    }
-
     @GetMapping("/orders")
     public String orderItemList(@AuthenticationPrincipal MemberDetails memberDetails,
                                 @ModelAttribute OrderSearch orderSearch,
@@ -123,6 +113,14 @@ public class OrderController {
     public String cancelOrder(@PathVariable("orderId") Long orderId) {
         orderService.cancelOrder(orderId);
         return "redirect:/orders";
+    }
+
+    @GetMapping("/orders/{id}")
+    public String orderDetail(@PathVariable("id") Long orderId, Model model) {
+        Order order = orderService.findOrder(orderId);
+        OrderDto orderDto = new OrderDto(order);
+        model.addAttribute("order", orderDto);
+        return "order/orderDetail";
     }
 
     @Data

@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/head :: headFragment"></head>
+<body>
+<nav th:replace="fragments/navbar :: navbarFragment"></nav>
+<header th:replace="fragments/header :: headerFragment"></header>
+<div class="container">
+    <div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>#</th> <th>상품명</th> <th>가격</th> <th>주문수량</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="orderItem : ${order.orderItems}">
+                <td th:text="${order.orderId}"></td>
+                <td th:text="${orderItem.itemName}"></td>
+                <td th:text="${orderItem.orderPrice}"></td>
+                <td th:text="${orderItem.orderCount}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <div>
+            <h4 th:text="|총 금액 : ${order.orderTotalPrice}|">총 가격</h4>
+        </div>
+        <div class="list">
+            <a class="btn btn-outline-dark mt-auto" href="/orders">목록으로</a>
+        </div>
+        <div class="list">
+            <a th:if="${order.orderStatus.name() == 'READY'}" href="#"
+               th:href="'javascript:cancel('+${order.orderId}+')'"
+               class="btn btn-danger">CANCEL</a>
+        </div>
+    </div>
+
+</div>
+<footer th:replace="fragments/footer :: footerFragment"></footer>
+</body>
+<!--자바스크립트 취소 로직-->
+<script>
+    function cancel(id) {
+        var form = document.createElement("form");
+        form.setAttribute("method", "post");
+        form.setAttribute("action", "/orders/" + id + "/cancel");
+        document.body.appendChild(form);
+        form.submit();
+    }
+</script>
+</html>
