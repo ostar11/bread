@@ -6,7 +6,6 @@ import freshbread.bread.domain.Order;
 import freshbread.bread.domain.OrderItem;
 import freshbread.bread.domain.OrderSearch;
 import freshbread.bread.domain.OrderStatus;
-import freshbread.bread.domain.item.Item;
 import freshbread.bread.service.CartService;
 import freshbread.bread.service.ItemService;
 import freshbread.bread.service.NotificationService;
@@ -45,51 +44,22 @@ public class OrderController {
      * @param itemId        : 상품 아이디로 상품 찾기
      * @param count         : 주문 수량 (1개 이상 10개 이하로만 메소드 수행)
      */
-//    @PostMapping("/items/{id}/order")
-//    public String order(@AuthenticationPrincipal MemberDetails memberDetails,
-//                        @PathVariable("id") Long itemId,
-//                        @RequestParam("count") @Range(min = 1, max = 10, message = "주문은 1개 이상 10개 이하까지만 가능합니다.") int count) {
-//        orderService.order(memberDetails, itemId, count);
-//        return "redirect:/items";
-//    }
-
     @PostMapping("/items/{id}/order")
     public String orderWithNotification(@AuthenticationPrincipal MemberDetails memberDetails,
                         @PathVariable("id") Long itemId,
                         @RequestParam("count") @Range(min = 1, max = 10, message = "주문은 1개 이상 10개 이하까지만 가능합니다.") int count) {
         orderService.order(memberDetails.getUsername(), itemId, count);
-//        Item item = itemService.findOne(itemId);
-//        if(item.checkStockQuantity()) {
-//            notificationService.sendStockNotification(NotificationType.REST5, item.getName() + " " + item.getStockQuantity(),
-//                    String.valueOf(item.getId()));
-//        }
         notificationService.sendStockNotificationV2(NotificationType.REST5, itemId);
         return "redirect:/items";
     }
 
     @PostMapping("/cart/order")
     public String orderCartItemWithNotification(@AuthenticationPrincipal MemberDetails memberDetails) {
-        List<Long> cartItemIdList = orderService.orderCartItem(memberDetails.getUsername());
-//        notificationService.sendStockNotifications(memberDetails.getUsername());
-        cartService.deleteCartItem(cartItemIdList);
+        List<Long> itemIdList = orderService.orderCartItem(memberDetails.getUsername());
+        notificationService.sendStockNotificationV3(NotificationType.REST5, itemIdList);
+        cartService.deleteCartItem(memberDetails.getUsername());
         return "redirect:/items";
     }
-
-
-
-    /**
-     * orderId, orderStatus, OrderDate, memberName 정보를 가지는 orderResponseDto 를 반환
-     * 주문상품과 주문가격, 주문개수에 대한 정보가 없다. 밑에서 추가
-     */
-//    @ResponseBody
-//    @GetMapping("/orders")
-//    public List<OrderResponseDto> orderList(@AuthenticationPrincipal MemberDetails memberDetails, Model model) {
-//        List<Order> orders = orderService.findAllOrders(memberDetails);
-//        List<OrderResponseDto> result = orders.stream()
-//                .map(o -> new OrderResponseDto(o))
-//                .collect(Collectors.toList());
-//        return result;
-//    }
 
     /**
      * 전체 주문 조회

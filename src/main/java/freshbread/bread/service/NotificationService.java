@@ -118,7 +118,6 @@ public class NotificationService {
     }
 
     public void sendStockNotificationV2(NotificationType notificationType, Long itemId) {
-
         List<Member> members = memberRepository.findByRole(Role.CUSTOMER);
         Item item = itemRepository.findOne(itemId);
         log.info("재고량은 충분? = {}", item.checkStockQuantity());
@@ -129,6 +128,21 @@ public class NotificationService {
                 send(member, NotificationType.REST5, content, url);
             }
         }
+    }
+
+    public void sendStockNotificationV3(NotificationType notificationType, List<Long> itemIdList) {
+        List<Member> members = memberRepository.findByRole(Role.CUSTOMER);
+        for (Long itemId : itemIdList) {
+            Item item = itemRepository.findOne(itemId);
+            if (item.checkStockQuantity()) {
+                for (Member member : members) {
+                    String content = item.getName() + " 남은 수량 : " + item.getStockQuantity();
+                    String url = String.valueOf(item.getId());
+                    send(member, NotificationType.REST5, content, url);
+                }
+            }
+        }
+
     }
 
     private Notification createNotification(Member receiver, Notification.NotificationType notificationType, String content, String url) {

@@ -54,10 +54,7 @@ public class CartService {
 
     public Cart findCart(String loginId) {
         log.info("회원아이디로 cart 찾기. 회원 아이디 ={}", loginId);
-//        Member member = memberRepository.findByLoginId(loginId)
-//                .orElseThrow(() -> new IllegalStateException("사용자를 찾을 수 없습니다. 다시 로그인 해주세요."));
-//        Cart cart = cartRepository.findByMemberV1(member);
-        List<Cart> carts = cartRepository.findByMemberV2(loginId);
+        List<Cart> carts = cartRepository.findByMemberLoginIdWithMember(loginId);
         if(carts.size() == 0) {
             log.info("cart 찾기 실패");
 //            throw new IllegalStateException("Cart entity 가 없습니다.");
@@ -66,12 +63,15 @@ public class CartService {
     }
 
     @Transactional
-    public void deleteCartItem(List<Long> cartItemIdList) {
-        log.info("장바구니 삭제");
-        for (Long id : cartItemIdList) {
-            CartItem cartItem = cartItemRepository.findById(id);
+    public void deleteCartItem(String loginId) {
+        List<Cart> carts = cartRepository.findByMemberLoginIdWithCartItem(loginId);
+        if(carts.size() == 0) {
+            throw new IllegalStateException("Cart Entity 가 없습니다.");
+        }
+        Cart cart = carts.get(0);
+        List<CartItem> cartItems = cart.getCartItems();
+        for (CartItem cartItem : cartItems) {
             cartItemRepository.deleteOne(cartItem);
         }
-
     }
 }
