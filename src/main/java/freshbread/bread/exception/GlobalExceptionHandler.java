@@ -33,4 +33,12 @@ public class GlobalExceptionHandler {
         model.addAttribute("message", e.getMessage());
         return "error/error";
     }
+
+    @ExceptionHandler
+    public String handleNoCartEntityException(NoCartEntityException e, Model model) {
+        model.addAttribute("status", HttpStatus.BAD_REQUEST.value());
+        model.addAttribute("error", "시스템 오류");
+        model.addAttribute("message", e.getMessage());
+        return "error/error";
+    }
 }

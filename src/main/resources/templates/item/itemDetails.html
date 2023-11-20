@@ -43,14 +43,14 @@
                     <label for="count">주문수량</label>
                     <input type="number" name="count" class="form-control" id="count" placeholder="주문 수량을 입력하세요">
                 </div>
-                <button type="submit">주문하기</button>
+                <button th:if="${item.stockQuantity > 0}" type="submit">주문하기</button>
             </form>
             <form role="form" th:action="@{/items/{id}/cart (id=${item.id})}" method="post">
                 <div>
                     <label for="count">장바구니수량</label>
                     <input type="number" name="count" class="form-control" id="count" placeholder="장바구니 수량을 입력하세요">
                 </div>
-                <button type="submit">담기</button>
+                <button th:if="${item.stockQuantity > 0}" type="submit">담기</button>
             </form>
         </div>
 

@@ -4,6 +4,7 @@ import freshbread.bread.domain.Cart;
 import freshbread.bread.domain.CartItem;
 import freshbread.bread.domain.Member;
 import freshbread.bread.domain.item.Item;
+import freshbread.bread.exception.NoCartEntityException;
 import freshbread.bread.repository.CartItemRepository;
 import freshbread.bread.repository.CartRepository;
 import freshbread.bread.repository.ItemRepository;
@@ -57,7 +58,7 @@ public class CartService {
         List<Cart> carts = cartRepository.findByMemberLoginIdWithMember(loginId);
         if(carts.size() == 0) {
             log.info("cart 찾기 실패");
-//            throw new IllegalStateException("Cart entity 가 없습니다.");
+            throw new NoCartEntityException("관리자에게 문의하세요.");
         }
         return carts.get(0);
     }

@@ -1,7 +1,9 @@
 package freshbread.bread.service;
 
 import freshbread.bread.controller.MemberForm;
+import freshbread.bread.domain.Cart;
 import freshbread.bread.domain.Member;
+import freshbread.bread.repository.CartRepository;
 import freshbread.bread.repository.MemberRepository;
 import java.util.List;
 import java.util.Optional;
@@ -17,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final CartRepository cartRepository;
     private final PasswordEncoder encoder;
 
     /**
@@ -57,7 +60,10 @@ public class MemberService {
     @Transactional
     public Member join3(MemberForm memberForm) {
         Member member = memberForm.toEntity(encoder.encode(memberForm.getPassword()));
+        Cart cart = new Cart();
+        cart.enrollMember(member);
         memberRepository.save(member);
+        cartRepository.save(cart);
         return member;
     }
 

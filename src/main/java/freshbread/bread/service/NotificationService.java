@@ -125,7 +125,7 @@ public class NotificationService {
             for (Member member : members) {
                 String content = item.getName() + " 남은 수량 : " + item.getStockQuantity();
                 String url = String.valueOf(item.getId());
-                send(member, NotificationType.REST5, content, url);
+                send(member, notificationType, content, url);
             }
         }
     }
@@ -138,7 +138,7 @@ public class NotificationService {
                 for (Member member : members) {
                     String content = item.getName() + " 남은 수량 : " + item.getStockQuantity();
                     String url = String.valueOf(item.getId());
-                    send(member, NotificationType.REST5, content, url);
+                    send(member, notificationType, content, url);
                 }
             }
         }
@@ -167,7 +167,6 @@ public class NotificationService {
 //    }
 
     public List<Response> getNotReadNotifications(String loginId) {
-//        return notificationRepository.findByLoginId(loginId);
         List<Notification> notifies = notificationRepository.findByLoginIdAndChecked(loginId, false);
         List<Response> responses = new ArrayList<>();
         for (Notification notification : notifies) {

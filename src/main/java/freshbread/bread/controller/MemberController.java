@@ -54,7 +54,7 @@ public class MemberController {
 
 //        memberService.join2(form);
         Member member = memberService.join3(form);
-        cartService.assignCart(member);
+//        cartService.assignCart(member);
 
         return "redirect:/";
     }
