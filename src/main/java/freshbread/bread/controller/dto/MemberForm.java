@@ -1,4 +1,4 @@
-package freshbread.bread.controller;
+package freshbread.bread.controller.dto;
 
 import freshbread.bread.domain.Address;
 import freshbread.bread.domain.Member;

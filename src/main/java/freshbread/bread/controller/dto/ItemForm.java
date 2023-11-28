@@ -1,4 +1,4 @@
-package freshbread.bread.controller;
+package freshbread.bread.controller.dto;
 
 import javax.validation.constraints.NotBlank;
 import lombok.Getter;

@@ -1,6 +1,6 @@
 package freshbread.bread.service;
 
-import freshbread.bread.controller.MemberForm;
+import freshbread.bread.controller.dto.MemberForm;
 import freshbread.bread.domain.Cart;
 import freshbread.bread.domain.Member;
 import freshbread.bread.repository.CartRepository;
@@ -8,7 +8,6 @@ import freshbread.bread.repository.MemberRepository;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

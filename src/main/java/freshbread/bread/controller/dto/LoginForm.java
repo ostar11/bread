@@ -1,4 +1,4 @@
-package freshbread.bread.controller;
+package freshbread.bread.controller.dto;
 
 import lombok.Getter;
 import lombok.Setter;

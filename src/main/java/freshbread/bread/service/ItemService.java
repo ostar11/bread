@@ -1,6 +1,6 @@
 package freshbread.bread.service;
 
-import freshbread.bread.controller.ItemForm;
+import freshbread.bread.controller.dto.ItemForm;
 import freshbread.bread.domain.item.Item;
 import freshbread.bread.repository.ItemRepository;
 import java.util.List;
