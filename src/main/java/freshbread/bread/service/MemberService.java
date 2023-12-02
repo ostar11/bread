@@ -1,6 +1,7 @@
 package freshbread.bread.service;
 
 import freshbread.bread.controller.dto.MemberForm;
+import freshbread.bread.controller.dto.MemberInfoDto;
 import freshbread.bread.domain.Cart;
 import freshbread.bread.domain.Member;
 import freshbread.bread.repository.CartRepository;
@@ -8,6 +9,7 @@ import freshbread.bread.repository.MemberRepository;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -91,5 +93,11 @@ public class MemberService {
         }
 
         return member.get();
+    }
+
+    public MemberInfoDto findMemberInfo(String loginId) {
+        Member member = memberRepository.findByLoginId(loginId)
+                .orElseThrow(() -> new UsernameNotFoundException("해당유저를 찾을 수 없습니다."));
+        return new MemberInfoDto(member);
     }
 }

@@ -3,6 +3,7 @@ package freshbread.bread.controller;
 import freshbread.bread.config.MemberDetails;
 import freshbread.bread.controller.dto.LoginForm;
 import freshbread.bread.controller.dto.MemberForm;
+import freshbread.bread.controller.dto.MemberInfoDto;
 import freshbread.bread.domain.Member;
 import freshbread.bread.service.CartService;
 import freshbread.bread.service.MemberService;
@@ -108,5 +109,13 @@ public class MemberController {
             }
         }
         return "member/adminHome";
+    }
+
+    @GetMapping("/member/info")
+    public String memberInfo(Model model, @AuthenticationPrincipal MemberDetails memberDetails) {
+        String loginId = memberDetails.getUsername();
+        MemberInfoDto memberInfoDto = memberService.findMemberInfo(loginId);
+        model.addAttribute("form", memberInfoDto);
+        return "member/info";
     }
 }
